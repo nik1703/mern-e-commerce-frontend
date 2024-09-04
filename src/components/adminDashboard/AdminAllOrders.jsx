@@ -7,6 +7,7 @@ const AdminAllOrders = () => {
   const { fetchAdminOrders, adminOrders } = useOrderContext()
   const [editingOrderId, setEditingOrderId] = useState(null)
   const [sortOrder, setSortOrder] = useState('newest')
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const notify = () => {
     toast.success('Order Updated', {
@@ -27,7 +28,7 @@ const AdminAllOrders = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/orders/update-status/${orderId}`,
+        `${beUrl}/orders/update-status/${orderId}`,
         {
           method: 'PATCH',
           headers: {

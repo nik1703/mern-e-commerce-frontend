@@ -25,15 +25,14 @@ const UserDashboard = () => {
 
   const [totalQuantity, setTotalQuantity] = useState(0)
   const [totalReviews, setTotalReviews] = useState(0)
-
-  console.log(userData)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   // fetch all orders from user
   const fetchOrders = async () => {
     const userId = userData._id
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userId}`
+        `${beUrl}/orders/myorders/${userId}`
       )
       const data = await response.json()
       console.log(data)
@@ -50,7 +49,7 @@ const UserDashboard = () => {
 
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/reviews/${userId}`
+        `${beUrl}/reviews/${userId}`
       )
       const data = await response.json()
       setUserReview(data)

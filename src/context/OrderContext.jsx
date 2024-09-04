@@ -15,12 +15,13 @@ function OrderProvider({ children }) {
   const { userData, isLoggedin } = useShopContext()
   const { discountRate } = useCartContext()
   const [refundOrders, setRefundOrders] = useState([])
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Fetch user orders from API
   const fetchUserOrders = async () => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userData._id}`,
+        `${beUrl}/orders/myorders/${userData._id}`,
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
@@ -39,7 +40,7 @@ function OrderProvider({ children }) {
   // Fetch all orders for admin from API
   const fetchAdminOrders = async () => {
     try {
-      const response = await fetch('https://e-commerce-backend.niklasmoog.com/orders/admin', {
+      const response = await fetch(`${beUrl}/orders/admin`, {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
@@ -57,7 +58,7 @@ function OrderProvider({ children }) {
   const fetchRefundOrders = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/orders/requested-refunds'
+        `${beUrl}/orders/requested-refunds`
       )
       const data = await response.json()
       setRefundOrders(data)
@@ -85,7 +86,7 @@ function OrderProvider({ children }) {
         return
       }
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/orders/create-order',
+        `${beUrl}/orders/create-order`,
         {
           method: 'POST',
           headers: {

@@ -17,6 +17,7 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
   const [editRole, setEditRole] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     if (!userId) return
@@ -24,7 +25,7 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
     const fetchUser = async () => {
       try {
         const response = await fetch(
-          `https://e-commerce-backend.niklasmoog.com/user/${userId}`
+          `${beUrl}/user/${userId}`
         )
         if (!response.ok) {
           throw new Error('Error fetching user')
@@ -52,7 +53,7 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
   const checkEmailUnique = async (email) => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/user/'
+        `${beUrl}/user/`
       )
       const data = await response.json()
       const emailExists = data.some((u) => u.email === email)
@@ -65,7 +66,7 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
   const updateUserData = async (fieldName, value) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        `${beUrl}/user/${userId}`,
         {
           method: 'PATCH',
           headers: {
@@ -90,7 +91,7 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
   const deleteUserAccount = async () => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        `${beUrl}/user/${userId}`,
         {
           method: 'DELETE',
         }

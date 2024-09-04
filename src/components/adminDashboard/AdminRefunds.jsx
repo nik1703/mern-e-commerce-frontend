@@ -5,6 +5,7 @@ import { toast, ToastContainer } from 'react-toastify'
 const AdminRefunds = () => {
   const [query, setQuery] = useState('')
   const { fetchRefundOrders, refundOrders } = useOrderContext()
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const notify = () => {
     toast.success('Refund Confirmed', {
@@ -37,7 +38,7 @@ const AdminRefunds = () => {
   const updateRefundStatus = async (orderId, newRefundStatus, orderStatus) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/orders/update-refund-status/${orderId}`,
+        `${beUrl}/orders/update-refund-status/${orderId}`,
         {
           method: 'PATCH',
           headers: {

@@ -9,6 +9,7 @@ const AdminReviews = () => {
   const [reviews, setReviews] = useState([])
   const [query, setQuery] = useState('')
   const [sortOrder, setSortOrder] = useState('newest')
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const notify = (message) => {
     toast.success(message, {
@@ -67,7 +68,7 @@ const AdminReviews = () => {
   const fetchReviews = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/reviews'
+        `${beUrl}/reviews`
       )
       const data = await response.json()
       const _reviews = data.map((review) => ({
@@ -93,7 +94,7 @@ const AdminReviews = () => {
   const deleteReview = async (reviewId) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/reviews/${reviewId}`,
+        `${beUrl}/reviews/${reviewId}`,
         {
           method: 'DELETE',
           headers: {

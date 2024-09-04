@@ -18,6 +18,7 @@ const AdminEditProduct = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { fetchProducts } = useShopContext()
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [product, setProduct] = useState({
     title: '',
@@ -59,7 +60,7 @@ const AdminEditProduct = () => {
   const fetchProduct = async () => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/products/${id}`
+        `${beUrl}/products/${id}`
       )
       const data = await response.json()
       setProduct(data)
@@ -110,7 +111,7 @@ const AdminEditProduct = () => {
 
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/products/${id}`,
+        `${beUrl}/products/${id}`,
         {
           method: 'PATCH',
           headers: {

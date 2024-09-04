@@ -6,6 +6,7 @@ function Register() {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ function Register() {
   const registerUser = async (firstName, lastName, email, password) => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/user/register',
+        `${beUrl}/user/register`,
         {
           method: 'POST',
           headers: {

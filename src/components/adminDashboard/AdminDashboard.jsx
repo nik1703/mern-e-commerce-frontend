@@ -19,11 +19,12 @@ const AdminDashboard = () => {
   const [totalQuantity, setTotalQuantity] = useState(0)
   const [totalRevenue, setTotalRevenue] = useState(0)
   const [uniqueCustomers, setUniqueCustomers] = useState(new Set())
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const fetchUsers = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/user/'
+        `${beUrl}/user/`
       )
       const data = await response.json()
       setCustomers(data)
@@ -35,7 +36,7 @@ const AdminDashboard = () => {
   const fetchOrders = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/orders/admin'
+        `${beUrl}/orders/admin`
       )
       const data = await response.json()
       setOrders(data)

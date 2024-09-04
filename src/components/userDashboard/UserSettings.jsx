@@ -13,6 +13,7 @@ const UserSettings = () => {
   const [editFirstName, setEditFirstName] = useState(false)
   const [editLastName, setEditLastName] = useState(false)
   const [editEmail, setEditEmail] = useState(false)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
   const navigate = useNavigate()
 
   const handleChange = (fieldName, value) => {
@@ -25,7 +26,7 @@ const UserSettings = () => {
   const checkEmailUnique = async (email) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/`
+        `${beUrl}/user/`
       )
       const data = await response.json()
       const emailExists = data.some((user) => user.email === email)
@@ -42,7 +43,7 @@ const UserSettings = () => {
     }
 
     try {
-      fetch(`https://e-commerce-backend.niklasmoog.com/user/${userID}`, {
+      fetch(`${beUrl}/user/${userID}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ const UserSettings = () => {
   const deleteAccount = async () => {
     const userID = userData._id
     try {
-      fetch(`https://e-commerce-backend.niklasmoog.com/user/${userID}`, {
+      fetch(`${beUrl}/user/${userID}`, {
         method: 'DELETE',
       })
       setUserData({})

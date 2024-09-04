@@ -17,6 +17,7 @@ const UserReviews = () => {
   const [newRating, setNewRating] = useState(0)
   const [sortOrder, setSortOrder] = useState('newest')
   const [submitTriggered, setSubmitTriggered] = useState(false)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const handleEditClick = (review) => {
     setEditingReviewId(review._id)
@@ -32,7 +33,7 @@ const UserReviews = () => {
     const userID = userData._id
 
     const response = await fetch(
-      `https://e-commerce-backend.niklasmoog.com/reviews/${userID}`
+      `${beUrl}/reviews/${userID}`
     )
 
     const data = await response.json()
@@ -43,7 +44,7 @@ const UserReviews = () => {
   const deleteReviewById = async (id) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/reviews/${id}`,
+        `${beUrl}/reviews/${id}`,
         {
           method: 'DELETE',
         }
@@ -64,7 +65,7 @@ const UserReviews = () => {
   const updateReviewById = async (id) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/reviews/${id}`,
+        `${beUrl}/reviews/${id}`,
         {
           method: 'PATCH',
           headers: {

@@ -6,6 +6,7 @@ const AdminAllCustomers = () => {
   const [query, setQuery] = useState('')
   const [editingUserId, setEditingUserId] = useState(null)
   const [sortCustomer, setSortCustomer] = useState('newest')
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const notify = () => {
     toast.success('User Updated', {
@@ -88,7 +89,7 @@ const AdminAllCustomers = () => {
   const fetchCustomers = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/user/'
+        `${beUrl}/user/`
       )
       const data = await response.json()
       setCustomers(data.filter((customer) => !customer.isDeleted))
@@ -122,7 +123,7 @@ const AdminAllCustomers = () => {
     }
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        `${beUrl}/user/${userId}`,
         {
           method: 'PATCH',
           headers: {
@@ -145,7 +146,7 @@ const AdminAllCustomers = () => {
   const handleDeleteUser = async (userId) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        `${beUrl}/user/${userId}`,
         {
           method: 'PATCH',
           headers: {

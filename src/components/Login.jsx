@@ -9,10 +9,12 @@ function Login() {
   const [error, setError] = useState('')
   const navigate = useNavigate()
   const { setIsLoggedin, setUserData } = useShopContext()
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
+
 
   const loginUser = async (email, password) => {
     try {
-      const response = await fetch('https://e-commerce-backend.niklasmoog.com/user/login', {
+      const response = await fetch(`${beUrl}/user/login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

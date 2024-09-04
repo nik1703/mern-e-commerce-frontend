@@ -37,6 +37,7 @@ function Navbar() {
     setAdminSidebarActive,
   } = useShopContext()
   const { cartQuantity } = useCartContext()
+  const beUrl = import.meta.env.VITE_BACKEND_URL
 
   const navigate = useNavigate()
 
@@ -44,18 +45,15 @@ function Navbar() {
 
   const userLogout = async (user) => {
     try {
-      const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/user/logout',
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          body: JSON.stringify({
-            token: user.token,
-          }),
-        }
-      )
+      const response = await fetch(`${beUrl}/user/logout`, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          token: user.token,
+        }),
+      })
       setIsLoggedin(false)
       setUserData({})
       setUserMenuIsOpen(false)

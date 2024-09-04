@@ -16,6 +16,7 @@ const AdminProductList = ({ showAddProduct, setShowAddProduct }) => {
   const { products, fetchProducts } = useShopContext()
   const [itemOffset, setItemOffset] = useState(0)
   const [itemsPerPage, setItemsPerPage] = useState(10)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const notify = () => {
     toast.success('Product deleted!', {
@@ -43,7 +44,7 @@ const AdminProductList = ({ showAddProduct, setShowAddProduct }) => {
   const handleDeleteProduct = async (id) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/products/delete/${id}`,
+        `${beUrl}/products/delete/${id}`,
         {
           method: 'PATCH',
           headers: {

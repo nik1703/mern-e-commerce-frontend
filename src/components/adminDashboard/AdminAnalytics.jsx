@@ -22,11 +22,12 @@ const AdminAnalytics = () => {
   const [prevRefundCost, setPrevRefundCost] = useState(0)
   const [discountCost, setDiscountCost] = useState(0)
   const [prevDiscountCost, setPrevDiscountCost] = useState(0)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   const fetchOrders = async () => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/orders/admin'
+        `${beUrl}/orders/admin`
       )
       const data = await response.json()
       setOrders(data)

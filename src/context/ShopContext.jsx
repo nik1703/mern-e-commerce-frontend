@@ -24,12 +24,13 @@ function ShopProvider({ children }) {
   const [products, setProducts] = useState([])
   const [reviews, setReviews] = useState([])
   const [loading, setLoading] = useState(true)
+  const beUrl = import.meta.env.VITE_BACKEND_URL
 
   // Cookies
   useEffect(() => {
     const authToken = Cookies.get('authToken')
     if (authToken) {
-      fetch('https://e-commerce-backend.niklasmoog.com/user/tokenLogin', {
+      fetch(`${beUrl}/user/tokenLogin`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -46,7 +47,7 @@ function ShopProvider({ children }) {
   //fetching all reviews from api
   const fetchReviews = async () => {
     try {
-      const response = await fetch('https://e-commerce-backend.niklasmoog.com/reviews')
+      const response = await fetch(`${beUrl}/reviews`)
       const data = await response.json()
       setReviews(data)
     } catch (error) {
@@ -57,7 +58,7 @@ function ShopProvider({ children }) {
   // Fetching Products from the API
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://e-commerce-backend.niklasmoog.com/products/')
+      const response = await fetch(`${beUrl}/products/`)
       const data = await response.json()
       setProducts(data.filter((product) => !product.isDeleted))
     } catch (error) {

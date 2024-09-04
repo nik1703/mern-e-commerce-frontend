@@ -22,6 +22,7 @@ const UserOrders = () => {
   const [rating, setRating] = useState(0)
   const [description, setDescription] = useState('')
   const [userReviews, setUserReviews] = useState([])
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   // const [query, setQuery] = useState('')
   const [sortOrder, setSortOrder] = useState('newest')
@@ -41,7 +42,7 @@ const UserOrders = () => {
   const requestRefund = async (id) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/orders/update-refund-status/${id}`,
+        `${beUrl}/orders/update-refund-status/${id}`,
         {
           method: 'PATCH',
           headers: {
@@ -109,7 +110,7 @@ const UserOrders = () => {
   const fetchReviewsByUser = async () => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/reviews/${userId}`
+        `${beUrl}/reviews/${userId}`
       )
       const data = await response.json()
       setUserReviews(data)
@@ -123,7 +124,7 @@ const UserOrders = () => {
   const sendReview = async (description, rating) => {
     try {
       const response = await fetch(
-        'https://e-commerce-backend.niklasmoog.com/reviews',
+        `${beUrl}/reviews`,
         {
           method: 'POST',
           headers: {
@@ -179,7 +180,7 @@ const UserOrders = () => {
   )
   const fetchOrder = async () => {
     const response = await fetch(
-      `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userId}`
+      `${beUrl}/orders/myorders/${userId}`
     )
     const data = await response.json()
     setUserOrders(data.userOrders)

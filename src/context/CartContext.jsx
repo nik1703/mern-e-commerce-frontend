@@ -18,6 +18,7 @@ function CartProvider({ children }) {
   const [warnText, setWarnText] = useState('')
   const { userData, setUserData } = useShopContext()
   const [cartTotal, setCartTotal] = useState(0)
+  const beUrl = import.meta.env.VITE_BACKEND_URL;
 
   useEffect(() => {
     const localCartItems =
@@ -52,7 +53,7 @@ function CartProvider({ children }) {
   const updateCartAPI = async (cartItems) => {
     try {
       const response = await fetch(
-        `https://e-commerce-backend.niklasmoog.com/user/${userData._id}`,
+        `${beUrl}/user/${userData._id}`,
         {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -95,7 +96,7 @@ function CartProvider({ children }) {
   const increaseCartQuantity = async (productId, size, color, quantity = 1) => {
     const productToAdd = { productId, size, color, quantity }
     if (userData?.token) {
-      const response = await fetch('https://e-commerce-backend.niklasmoog.com/cart/add-to-cart', {
+      const response = await fetch(`${beUrl}/cart/add-to-cart`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...productToAdd, userId: userData._id }),
