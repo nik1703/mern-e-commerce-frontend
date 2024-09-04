@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview --host --port 3001",
+		"start": "vite serve --host --port 3001",
+		"setup": "npm i && pm2 start --name e-commerce-frontend npm -- start --update-env --time && pm2 save",
+		"deploy": "git pull --no-rebase && pm2 restart e-commerce-frontend --update-env --time && pm2 save"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
