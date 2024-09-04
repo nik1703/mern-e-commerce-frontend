@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* added fonts */
+@font-face {
+  font-family: 'Satoshi Bold';
+  src:
+    local('Satoshi Bold'),
+    url(./fonts/Satoshi-Bold.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Satoshi Regular';
+  src:
+    local('Satoshi Regular'),
+    url(./fonts/Satoshi-Regular.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Satoshi Medium';
+  src:
+    local('Satoshi Medium'),
+    url(./fonts/Satoshi-Medium.otf) format('opentype');
+}
+@font-face {
+  font-family: 'Integral CF Bold';
+  src:
+    local('Integral CF Bold'),
+    url(./fonts/Integralcf-Bold.otf) format('opentype');
+}
+
+/* Remove Arrows on Input with type Number */
+@layer base {
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
