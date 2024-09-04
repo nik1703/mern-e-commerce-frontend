@@ -27,7 +27,7 @@ const AdminAllOrders = () => {
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/orders/update-status/${orderId}`,
+        `https://e-commerce-backend.niklasmoog.com/orders/update-status/${orderId}`,
         {
           method: 'PATCH',
           headers: {

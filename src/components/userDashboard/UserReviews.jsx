@@ -31,7 +31,9 @@ const UserReviews = () => {
   const fetchReviewsById = async () => {
     const userID = userData._id
 
-    const response = await fetch(`http://localhost:3002/reviews/${userID}`)
+    const response = await fetch(
+      `https://e-commerce-backend.niklasmoog.com/reviews/${userID}`
+    )
 
     const data = await response.json()
 
@@ -40,9 +42,12 @@ const UserReviews = () => {
 
   const deleteReviewById = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3002/reviews/${id}`, {
-        method: 'DELETE',
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/reviews/${id}`,
+        {
+          method: 'DELETE',
+        }
+      )
       setSubmitTriggered(true)
       fetchReviews()
 
@@ -58,13 +63,16 @@ const UserReviews = () => {
 
   const updateReviewById = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3002/reviews/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ review: newReview, stars: newRating }),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/reviews/${id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ review: newReview, stars: newRating }),
+        }
+      )
       setEditingReviewId(null)
       setSubmitTriggered(true)
       fetchReviews()

@@ -20,7 +20,7 @@ function OrderProvider({ children }) {
   const fetchUserOrders = async () => {
     try {
       const response = await fetch(
-        `http://localhost:3002/orders/myorders/${userData._id}`,
+        `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userData._id}`,
         {
           headers: {
             Authorization: `Bearer ${userData.token}`,
@@ -39,7 +39,7 @@ function OrderProvider({ children }) {
   // Fetch all orders for admin from API
   const fetchAdminOrders = async () => {
     try {
-      const response = await fetch('http://localhost:3002/orders/admin', {
+      const response = await fetch('https://e-commerce-backend.niklasmoog.com/orders/admin', {
         headers: {
           Authorization: `Bearer ${userData.token}`,
         },
@@ -57,7 +57,7 @@ function OrderProvider({ children }) {
   const fetchRefundOrders = async () => {
     try {
       const response = await fetch(
-        'http://localhost:3002/orders/requested-refunds'
+        'https://e-commerce-backend.niklasmoog.com/orders/requested-refunds'
       )
       const data = await response.json()
       setRefundOrders(data)
@@ -85,7 +85,7 @@ function OrderProvider({ children }) {
         return
       }
       const response = await fetch(
-        'http://localhost:3002/orders/create-order',
+        'https://e-commerce-backend.niklasmoog.com/orders/create-order',
         {
           method: 'POST',
           headers: {

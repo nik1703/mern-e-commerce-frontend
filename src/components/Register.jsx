@@ -12,19 +12,22 @@ function Register() {
 
   const registerUser = async (firstName, lastName, email, password) => {
     try {
-      const response = await fetch('http://localhost:3002/user/register', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          password: password,
-        }),
-      })
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/user/register',
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            password: password,
+          }),
+        }
+      )
       if (response.ok) {
         console.log('Registration successful')
         navigate('/')

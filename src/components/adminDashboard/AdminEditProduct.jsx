@@ -58,7 +58,9 @@ const AdminEditProduct = () => {
 
   const fetchProduct = async () => {
     try {
-      const response = await fetch(`http://localhost:3002/products/${id}`)
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/products/${id}`
+      )
       const data = await response.json()
       setProduct(data)
       setMainImg(data.mainImage)
@@ -107,23 +109,26 @@ const AdminEditProduct = () => {
     setLoading(true)
 
     try {
-      const response = await fetch(`http://localhost:3002/products/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...product,
-          mainImage: mainImg,
-          images: [img1, img2, img3],
-        }),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/products/${id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            ...product,
+            mainImage: mainImg,
+            images: [img1, img2, img3],
+          }),
+        }
+      )
       const data = await response.json()
       console.log('Product updated', data)
       setLoading(false)
       if (response.status === 200) {
-        setMessage("Product updated successfully")
-        toast.success("Product updated successfully", {
+        setMessage('Product updated successfully')
+        toast.success('Product updated successfully', {
           position: 'bottom-right',
           autoClose: 5000,
           hideProgressBar: false,

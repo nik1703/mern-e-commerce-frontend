@@ -5,7 +5,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import UploadZone from './UploadZone'
 
 const AdminAddProduct = () => {
-  const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3002'
+  const baseUrl =
+    import.meta.env.VITE_BASE_URL || 'https://e-commerce-backend.niklasmoog.com'
 
   const [mainImg, setMainImg] = useState('')
   const [img1, setImg1] = useState('')

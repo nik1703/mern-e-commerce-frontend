@@ -87,7 +87,9 @@ const AdminAllCustomers = () => {
 
   const fetchCustomers = async () => {
     try {
-      const response = await fetch('http://localhost:3002/user/')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/user/'
+      )
       const data = await response.json()
       setCustomers(data.filter((customer) => !customer.isDeleted))
     } catch (error) {
@@ -119,13 +121,16 @@ const AdminAllCustomers = () => {
       }
     }
     try {
-      const response = await fetch(`http://localhost:3002/user/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedUser),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedUser),
+        }
+      )
       const data = await response.json()
       if (data) {
         notify()
@@ -139,15 +144,18 @@ const AdminAllCustomers = () => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:3002/user/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isDeleted: true,
-        }),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            isDeleted: true,
+          }),
+        }
+      )
       const data = await response.json()
       fetchCustomers()
       notifyDelete()

@@ -37,7 +37,7 @@ const AdminRefunds = () => {
   const updateRefundStatus = async (orderId, newRefundStatus, orderStatus) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/orders/update-refund-status/${orderId}`,
+        `https://e-commerce-backend.niklasmoog.com/orders/update-refund-status/${orderId}`,
         {
           method: 'PATCH',
           headers: {

@@ -23,7 +23,9 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3002/user/${userId}`)
+        const response = await fetch(
+          `https://e-commerce-backend.niklasmoog.com/user/${userId}`
+        )
         if (!response.ok) {
           throw new Error('Error fetching user')
         }
@@ -49,7 +51,9 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
 
   const checkEmailUnique = async (email) => {
     try {
-      const response = await fetch('http://localhost:3002/user/')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/user/'
+      )
       const data = await response.json()
       const emailExists = data.some((u) => u.email === email)
       return emailExists
@@ -60,13 +64,16 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
 
   const updateUserData = async (fieldName, value) => {
     try {
-      const response = await fetch(`http://localhost:3002/user/${userId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ [fieldName]: value }),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ [fieldName]: value }),
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Error updating user')
@@ -82,9 +89,12 @@ const AdminEditUser = ({ userId, onUserEdited, notify }) => {
 
   const deleteUserAccount = async () => {
     try {
-      const response = await fetch(`http://localhost:3002/user/${userId}`, {
-        method: 'DELETE',
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/user/${userId}`,
+        {
+          method: 'DELETE',
+        }
+      )
 
       if (!response.ok) {
         throw new Error('Error deleting user account')

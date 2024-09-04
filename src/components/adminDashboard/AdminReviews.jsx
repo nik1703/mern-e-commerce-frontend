@@ -66,7 +66,9 @@ const AdminReviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch('http://localhost:3002/reviews')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/reviews'
+      )
       const data = await response.json()
       const _reviews = data.map((review) => ({
         _id: review._id,
@@ -91,7 +93,7 @@ const AdminReviews = () => {
   const deleteReview = async (reviewId) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/reviews/${reviewId}`,
+        `https://e-commerce-backend.niklasmoog.com/reviews/${reviewId}`,
         {
           method: 'DELETE',
           headers: {

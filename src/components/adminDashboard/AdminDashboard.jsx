@@ -22,7 +22,9 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('http://localhost:3002/user/')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/user/'
+      )
       const data = await response.json()
       setCustomers(data)
     } catch (error) {
@@ -32,7 +34,9 @@ const AdminDashboard = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:3002/orders/admin')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/orders/admin'
+      )
       const data = await response.json()
       setOrders(data)
     } catch (error) {

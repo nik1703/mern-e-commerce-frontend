@@ -29,7 +29,7 @@ function ShopProvider({ children }) {
   useEffect(() => {
     const authToken = Cookies.get('authToken')
     if (authToken) {
-      fetch('http://localhost:3002/user/tokenLogin', {
+      fetch('https://e-commerce-backend.niklasmoog.com/user/tokenLogin', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -46,7 +46,7 @@ function ShopProvider({ children }) {
   //fetching all reviews from api
   const fetchReviews = async () => {
     try {
-      const response = await fetch('http://localhost:3002/reviews')
+      const response = await fetch('https://e-commerce-backend.niklasmoog.com/reviews')
       const data = await response.json()
       setReviews(data)
     } catch (error) {
@@ -57,7 +57,7 @@ function ShopProvider({ children }) {
   // Fetching Products from the API
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:3002/products/')
+      const response = await fetch('https://e-commerce-backend.niklasmoog.com/products/')
       const data = await response.json()
       setProducts(data.filter((product) => !product.isDeleted))
     } catch (error) {

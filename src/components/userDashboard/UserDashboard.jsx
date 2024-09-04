@@ -33,7 +33,7 @@ const UserDashboard = () => {
     const userId = userData._id
     try {
       const response = await fetch(
-        `http://localhost:3002/orders/myorders/${userId}`
+        `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userId}`
       )
       const data = await response.json()
       console.log(data)
@@ -49,7 +49,9 @@ const UserDashboard = () => {
     const userId = userData._id
 
     try {
-      const response = await fetch(`http://localhost:3002/reviews/${userId}`)
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/reviews/${userId}`
+      )
       const data = await response.json()
       setUserReview(data)
       console.log(data)

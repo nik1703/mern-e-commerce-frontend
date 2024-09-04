@@ -42,18 +42,21 @@ const AdminProductList = ({ showAddProduct, setShowAddProduct }) => {
 
   const handleDeleteProduct = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3002/products/delete/${id}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-		  body: JSON.stringify({
-			 isDeleted: true,
-		 }),
-      })
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/products/delete/${id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            isDeleted: true,
+          }),
+        }
+      )
       const data = await response.json()
       console.log('Product soft deleted', data)
-		fetchProducts()
+      fetchProducts()
       notify()
     } catch (error) {
       console.error('Error:', error.message)

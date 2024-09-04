@@ -41,7 +41,7 @@ const UserOrders = () => {
   const requestRefund = async (id) => {
     try {
       const response = await fetch(
-        `http://localhost:3002/orders/update-refund-status/${id}`,
+        `https://e-commerce-backend.niklasmoog.com/orders/update-refund-status/${id}`,
         {
           method: 'PATCH',
           headers: {
@@ -108,7 +108,9 @@ const UserOrders = () => {
   // fetch all reviews from user
   const fetchReviewsByUser = async () => {
     try {
-      const response = await fetch(`http://localhost:3002/reviews/${userId}`)
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/reviews/${userId}`
+      )
       const data = await response.json()
       setUserReviews(data)
       console.log(data)
@@ -120,18 +122,21 @@ const UserOrders = () => {
   // send review
   const sendReview = async (description, rating) => {
     try {
-      const response = await fetch('http://localhost:3002/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          review: description,
-          stars: rating,
-          createdBy: userId,
-          productId: currentProductId,
-        }),
-      })
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/reviews',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            review: description,
+            stars: rating,
+            createdBy: userId,
+            productId: currentProductId,
+          }),
+        }
+      )
       fetchReviews()
       if (!response.ok) {
         throw new Error('Network response was not ok')
@@ -174,7 +179,7 @@ const UserOrders = () => {
   )
   const fetchOrder = async () => {
     const response = await fetch(
-      `http://localhost:3002/orders/myorders/${userId}`
+      `https://e-commerce-backend.niklasmoog.com/orders/myorders/${userId}`
     )
     const data = await response.json()
     setUserOrders(data.userOrders)

@@ -25,7 +25,9 @@ const AdminAnalytics = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('http://localhost:3002/orders/admin')
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/orders/admin'
+      )
       const data = await response.json()
       setOrders(data)
     } catch (error) {
@@ -229,7 +231,7 @@ const AdminAnalytics = () => {
             </div>
           </div>
         </div>
-        <div className="rounded-lg bg-background mt-5 p-4 xl:px-16 xl:py-10">
+        <div className="mt-5 rounded-lg bg-background p-4 xl:px-16 xl:py-10">
           <div className="m-2 flex w-full flex-wrap justify-between gap-1 font-satoshi_regular lg:flex-row lg:gap-5 xl:px-10">
             <div className="mr-4 flex min-w-[8rem] max-w-[30rem] flex-shrink flex-grow flex-col items-start gap-2 rounded-xl border-2 border-gray-200 p-3 md:p-4 xl:w-1/4">
               <div className="flex w-full items-center justify-between gap-2">

@@ -44,15 +44,18 @@ function Navbar() {
 
   const userLogout = async (user) => {
     try {
-      const response = await fetch('http://localhost:3002/user/logout', {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          token: user.token,
-        }),
-      })
+      const response = await fetch(
+        'https://e-commerce-backend.niklasmoog.com/user/logout',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            token: user.token,
+          }),
+        }
+      )
       setIsLoggedin(false)
       setUserData({})
       setUserMenuIsOpen(false)

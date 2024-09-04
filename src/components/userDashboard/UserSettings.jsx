@@ -24,7 +24,9 @@ const UserSettings = () => {
 
   const checkEmailUnique = async (email) => {
     try {
-      const response = await fetch(`http://localhost:3002/user/`)
+      const response = await fetch(
+        `https://e-commerce-backend.niklasmoog.com/user/`
+      )
       const data = await response.json()
       const emailExists = data.some((user) => user.email === email)
       return emailExists
@@ -40,7 +42,7 @@ const UserSettings = () => {
     }
 
     try {
-      fetch(`http://localhost:3002/user/${userID}`, {
+      fetch(`https://e-commerce-backend.niklasmoog.com/user/${userID}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -55,7 +57,7 @@ const UserSettings = () => {
   const deleteAccount = async () => {
     const userID = userData._id
     try {
-      fetch(`http://localhost:3002/user/${userID}`, {
+      fetch(`https://e-commerce-backend.niklasmoog.com/user/${userID}`, {
         method: 'DELETE',
       })
       setUserData({})
