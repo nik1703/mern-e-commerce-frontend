@@ -49,6 +49,9 @@ const ProductDetails = ({ product }) => {
     setSelectedColor('')
     setSelectedSize('')
     setQuantity(1)
+    setImage1(`${product.images[0]}`)
+    setImage2(`${product.images[1]}`)
+    setImage3(`${product.images[2]}`)
   }, [product])
 
   function addToCart() {
