@@ -1,24 +1,42 @@
 import { FaStar } from 'react-icons/fa'
+import { useShopContext } from '../context/ShopContext'
 
 const Card = ({ product }) => {
+  const { reviews } = useShopContext()
+
+  const filteredReviews = reviews.filter(
+    (review) => review.productId._id === product._id
+  )
+
+  let totalStars = 0
+  filteredReviews.forEach((review) => {
+    totalStars += review.stars
+  })
+
+  let averageRating = filteredReviews.length
+    ? totalStars / filteredReviews.length
+    : 0
+
+  if (isNaN(averageRating) || averageRating < 0) {
+    averageRating = 0
+  }
+
   return (
     <>
-
       <div>
         <img
           src={product.mainImage}
           alt={product.title}
           className="pointer-events-none max-h-[300px]"
-
         />
         <h3 className="pt-4 font-satoshi_bold text-base md:text-lg">
           {product.title}
         </h3>
         <p className="flex flex-row items-center font-satoshi_regular text-xs md:text-sm">
-          {[...Array(product.stars)].map((star, index) => {
+          {[...Array(Math.round(averageRating))].map((star, index) => {
             return <FaStar key={index} className="mr-1 text-yellow-400" />
           })}{' '}
-          {product.stars}/5{' '}
+          {averageRating.toFixed(0)}/5{' '}
         </p>
         {product.isDiscounted ? (
           <div className="flex flex-row items-center">

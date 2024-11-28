@@ -17,7 +17,7 @@ const UserReviews = () => {
   const [newRating, setNewRating] = useState(0)
   const [sortOrder, setSortOrder] = useState('newest')
   const [submitTriggered, setSubmitTriggered] = useState(false)
-  const beUrl = import.meta.env.VITE_BACKEND_URL;
+  const beUrl = import.meta.env.VITE_BACKEND_URL
 
   const handleEditClick = (review) => {
     setEditingReviewId(review._id)
@@ -32,9 +32,7 @@ const UserReviews = () => {
   const fetchReviewsById = async () => {
     const userID = userData._id
 
-    const response = await fetch(
-      `${beUrl}/reviews/${userID}`
-    )
+    const response = await fetch(`${beUrl}/reviews/${userID}`)
 
     const data = await response.json()
 
@@ -43,12 +41,9 @@ const UserReviews = () => {
 
   const deleteReviewById = async (id) => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews/${id}`,
-        {
-          method: 'DELETE',
-        }
-      )
+      const response = await fetch(`${beUrl}/reviews/${id}`, {
+        method: 'DELETE',
+      })
       setSubmitTriggered(true)
       fetchReviews()
 
@@ -64,16 +59,13 @@ const UserReviews = () => {
 
   const updateReviewById = async (id) => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews/${id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ review: newReview, stars: newRating }),
-        }
-      )
+      const response = await fetch(`${beUrl}/reviews/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ review: newReview, stars: newRating }),
+      })
       setEditingReviewId(null)
       setSubmitTriggered(true)
       fetchReviews()
@@ -136,6 +128,27 @@ const UserReviews = () => {
   })
 
   const ProductCard = ({ product }) => {
+    const { reviews } = useShopContext()
+
+    const filteredReviews = reviews.filter(
+      (review) => review.productId && review.productId._id === product._id
+    )
+
+    console.log('Filtered Reviews:', filteredReviews)
+
+    let totalStars = 0
+    filteredReviews.forEach((review) => {
+      totalStars += review.stars
+    })
+
+    let averageRating = filteredReviews.length
+      ? totalStars / filteredReviews.length
+      : 0
+
+    if (isNaN(averageRating) || averageRating < 0) {
+      averageRating = 0
+    }
+
     return (
       <NavLink to={`/product/${product._id}`}>
         <div className="flex flex-col gap-3 border-b pb-3 lg:w-1/2 lg:flex-row lg:border-none xl:w-96">
@@ -151,10 +164,10 @@ const UserReviews = () => {
             </h3>
 
             <p className="flex flex-row items-center font-satoshi_regular text-xs md:text-sm">
-              {[...Array(product.stars)].map((star, index) => {
+              {[...Array(Math.round(averageRating))].map((star, index) => {
                 return <FaStar key={index} className="mr-1 text-yellow-400" />
               })}{' '}
-              {product.stars}/5{' '}
+              {averageRating.toFixed(0)}/5{' '}
             </p>
             {product.isDiscounted ? (
               <div className="flex flex-row items-center">

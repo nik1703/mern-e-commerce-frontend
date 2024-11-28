@@ -14,6 +14,7 @@ const UserOrders = () => {
     setQuery,
     fetchReviews,
     fetchRefundOrders,
+    reviews,
   } = useShopContext()
   // state
   const [currentProductId, setCurrentProductId] = useState('')
@@ -22,7 +23,7 @@ const UserOrders = () => {
   const [rating, setRating] = useState(0)
   const [description, setDescription] = useState('')
   const [userReviews, setUserReviews] = useState([])
-  const beUrl = import.meta.env.VITE_BACKEND_URL;
+  const beUrl = import.meta.env.VITE_BACKEND_URL
 
   // const [query, setQuery] = useState('')
   const [sortOrder, setSortOrder] = useState('newest')
@@ -109,9 +110,7 @@ const UserOrders = () => {
   // fetch all reviews from user
   const fetchReviewsByUser = async () => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews/${userId}`
-      )
+      const response = await fetch(`${beUrl}/reviews/${userId}`)
       const data = await response.json()
       setUserReviews(data)
       console.log(data)
@@ -123,21 +122,18 @@ const UserOrders = () => {
   // send review
   const sendReview = async (description, rating) => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            review: description,
-            stars: rating,
-            createdBy: userId,
-            productId: currentProductId,
-          }),
-        }
-      )
+      const response = await fetch(`${beUrl}/reviews`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          review: description,
+          stars: rating,
+          createdBy: userId,
+          productId: currentProductId,
+        }),
+      })
       fetchReviews()
       if (!response.ok) {
         throw new Error('Network response was not ok')
@@ -179,9 +175,7 @@ const UserOrders = () => {
     </div>
   )
   const fetchOrder = async () => {
-    const response = await fetch(
-      `${beUrl}/orders/myorders/${userId}`
-    )
+    const response = await fetch(`${beUrl}/orders/myorders/${userId}`)
     const data = await response.json()
     setUserOrders(data.userOrders)
   }
@@ -255,94 +249,115 @@ const UserOrders = () => {
 
               {/* all products of the order */}
               <div className="flex flex-wrap justify-center gap-2 p-2 px-4 lg:justify-start">
-                {order.products.map((product) => (
-                  <div
-                    key={product.productId._id}
-                    className="flex flex-col flex-wrap items-center gap-2"
-                  >
-                    <NavLink
-                      to={`/product/${product.productId._id}`}
-                      className=""
-                    >
-                      <h3 className="font-satoshi_bold text-base md:text-lg">
-                        {product.productId.title}
-                      </h3>
-                    </NavLink>
-                    <NavLink
-                      to={`/product/${product.productId._id}`}
-                      className=""
-                    >
-                      <img
-                        src={product.productId.mainImage}
-                        alt={product.productId.title}
-                        className="flex h-36 flex-wrap items-center"
-                        key={product._id}
-                      />
-                    </NavLink>
+                {order.products.map((product) => {
+                  const filteredReviews = reviews.filter(
+                    (review) =>
+                      review.productId &&
+                      review.productId._id === product.productId._id
+                  )
 
-                    {/* product Price */}
-                    <div className="">
-                      {product.productId.isDiscounted ? (
-                        <div className="flex flex-row items-center">
-                          <span className="font-satoshi_bold text-lg md:text-xl">
-                            ${product.productId.discountedPrice}
-                          </span>
-                          <span className="px-2 font-satoshi_bold text-lg line-through opacity-40 md:text-xl">
+                  let totalStars = 0
+                  filteredReviews.forEach((review) => {
+                    totalStars += review.stars
+                  })
+
+                  let averageRating = filteredReviews.length
+                    ? totalStars / filteredReviews.length
+                    : 0
+
+                  if (isNaN(averageRating) || averageRating < 0) {
+                    averageRating = 0
+                  }
+
+                  return (
+                    <div
+                      key={product.productId._id}
+                      className="flex flex-col flex-wrap items-center gap-2"
+                    >
+                      <NavLink
+                        to={`/product/${product.productId._id}`}
+                        className=""
+                      >
+                        <h3 className="font-satoshi_bold text-base md:text-lg">
+                          {product.productId.title}
+                        </h3>
+                      </NavLink>
+                      <NavLink
+                        to={`/product/${product.productId._id}`}
+                        className=""
+                      >
+                        <img
+                          src={product.productId.mainImage}
+                          alt={product.productId.title}
+                          className="flex h-36 flex-wrap items-center"
+                          key={product._id}
+                        />
+                      </NavLink>
+
+                      {/* product Price */}
+                      <div className="">
+                        {product.productId.isDiscounted ? (
+                          <div className="flex flex-row items-center">
+                            <span className="font-satoshi_bold text-lg md:text-xl">
+                              ${product.productId.discountedPrice}
+                            </span>
+                            <span className="px-2 font-satoshi_bold text-lg line-through opacity-40 md:text-xl">
+                              ${product.productId.price}
+                            </span>
+                            <span className="rounded-xl bg-[#FF3333] bg-opacity-10 px-1 py-1 text-xs text-red-500 md:px-3">
+                              -{product.productId.discountPercentage}%
+                            </span>
+                          </div>
+                        ) : (
+                          <p className="font-satoshi_bold text-lg md:text-xl">
                             ${product.productId.price}
-                          </span>
-                          <span className="rounded-xl bg-[#FF3333] bg-opacity-10 px-1 py-1 text-xs text-red-500 md:px-3">
-                            -{product.productId.discountPercentage}%
-                          </span>
-                        </div>
-                      ) : (
-                        <p className="font-satoshi_bold text-lg md:text-xl">
-                          ${product.productId.price}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* stars */}
+                      <div className="">
+                        <p className="flex flex-row items-center font-satoshi_regular text-xs md:text-sm">
+                          {[...Array(Math.round(averageRating))].map(
+                            (star, index) => {
+                              return (
+                                <FaStar
+                                  key={index}
+                                  className="mr-1 text-yellow-400"
+                                />
+                              )
+                            }
+                          )}{' '}
+                          {averageRating.toFixed(0)}/5{' '}
                         </p>
+                      </div>
+                      {alreadyReviewed(product.productId._id).length > 0 ? (
+                        <Button
+                          key={product.productId._id}
+                          secondary
+                          onClick={() => {
+                            handleClick(product.productId._id)
+                            setSidebarActive('reviews')
+                            setQuery(product.productId._id)
+                          }}
+                          disabled={false}
+                          className="min-w-44 cursor-auto"
+                        >
+                          Go to Review
+                        </Button>
+                      ) : (
+                        <Button
+                          key={product.productId._id}
+                          primary
+                          className="min-w-44"
+                          onClick={() => handleClick(product.productId._id)}
+                        >
+                          Write a review
+                        </Button>
                       )}
                     </div>
-
-                    {/* stars */}
-                    <div className="">
-                      <p className="flex flex-row items-center font-satoshi_regular text-xs md:text-sm">
-                        {[...Array(product.productId.stars)].map(
-                          (star, index) => {
-                            return (
-                              <FaStar
-                                key={index}
-                                className="mr-1 text-yellow-400"
-                              />
-                            )
-                          }
-                        )}{' '}
-                        {product.productId.stars}/5{' '}
-                      </p>
-                    </div>
-                    {alreadyReviewed(product.productId._id).length > 0 ? (
-                      <Button
-                        key={product.productId._id}
-                        secondary
-                        onClick={() => {
-                          handleClick(product.productId._id)
-                          setSidebarActive('reviews')
-                          setQuery(product.productId._id)
-                        }}
-                        disabled={false}
-                        className="min-w-44 cursor-auto"
-                      >
-                        Go to Review
-                      </Button>
-                    ) : (
-                      <Button
-                        key={product.productId._id}
-                        primary
-                        className="min-w-44"
-                        onClick={() => handleClick(product.productId._id)}
-                      >
-                        Write a review
-                      </Button>
-                    )}
-                  </div>
-                ))}
+                  )
+                })}
               </div>
               {showModal && (
                 <Modal onClose={handleClose} actionbar={actionbar}>

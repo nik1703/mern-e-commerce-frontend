@@ -115,7 +115,9 @@ const ProductReviews = () => {
               )
             })}
           </div>
-          {displayCount >= filteredReviews.length && width >= 768 ? (
+          {displayCount >= filteredReviews.length &&
+          filteredReviews.length > 6 &&
+          width >= 768 ? (
             <div className="mt-5 flex justify-center">
               <button
                 className="font-base rounded-full border-2 px-11 py-4 font-satoshi_medium"
@@ -137,7 +139,9 @@ const ProductReviews = () => {
               </div>
             )
           )}
-          {displayCount >= filteredReviews.length && width < 768 ? (
+          {displayCount >= filteredReviews.length &&
+          filteredReviews.length > 3 &&
+          width < 768 ? (
             <div className="mt-5 flex justify-center">
               <button
                 className="font-base rounded-full border-2 px-11 py-4 font-satoshi_medium"

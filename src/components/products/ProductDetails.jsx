@@ -7,10 +7,14 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useCartContext } from '../../context/CartContext'
 
 const ProductDetails = ({ product }) => {
+  const { reviews } = useShopContext()
   const [quantity, setQuantity] = useState(1)
   const [mainImage, setMainImage] = useState(`${product.mainImage}`)
   const [selectedColor, setSelectedColor] = useState('')
   const [selectedSize, setSelectedSize] = useState('')
+  const [image1, setImage1] = useState(`${product.images[0]}`)
+  const [image2, setImage2] = useState(`${product.images[1]}`)
+  const [image3, setImage3] = useState(`${product.images[2]}`)
 
   const { increaseCartQuantity } = useCartContext()
 
@@ -61,6 +65,27 @@ const ProductDetails = ({ product }) => {
     notify()
   }
 
+  const handleImageError = (e) => {
+    e.target.src = '/images/products/broken-image.png'
+  }
+
+  const filteredReviews = reviews.filter(
+    (review) => review.productId._id === product._id
+  )
+
+  let totalStars = 0
+  filteredReviews.forEach((review) => {
+    totalStars += review.stars
+  })
+
+  let averageRating = filteredReviews.length
+    ? totalStars / filteredReviews.length
+    : 0
+
+  if (isNaN(averageRating) || averageRating < 0) {
+    averageRating = 0
+  }
+
   return (
     <>
       <section className="mb-20">
@@ -71,38 +96,39 @@ const ProductDetails = ({ product }) => {
                 src={mainImage}
                 alt="product image main"
                 className="w-[438px] lg:max-h-[29rem] xl:max-h-none"
+                onError={handleImageError}
               />
             </div>
             <div className="flex flex-row justify-center gap-2 md:justify-normal md:gap-4 lg:flex-col">
               <img
-                src={
-                  product.images[0]
-                    ? product.images[0]
-                    : '/images/products/broken-image.png'
-                }
+                src={image1 ? image1 : '/images/products/broken-image.png'}
                 alt="product image 1"
-                className="min-h-28 min-w-[100px] cursor-pointer"
-                onClick={() => product.images[0] && setMainImage(`${product.images[0]}`)}
+                className="min-h-28 min-w-[100px] max-w-[150px] cursor-pointer"
+                onClick={() => {
+                  setMainImage(image1)
+                  setImage1(mainImage)
+                }}
+                onError={handleImageError}
               />
               <img
-                src={
-                  product.images[1]
-                    ? product.images[1]
-                    : '/images/products/broken-image.png'
-                }
+                src={image2 ? image2 : '/images/products/broken-image.png'}
                 alt="product image 2"
-                className="min-h-28  min-w-[100px] cursor-pointer"
-                onClick={() => product.images[1] && setMainImage(`${product.images[1]}`)}
+                className="min-h-28  min-w-[100px] max-w-[150px] cursor-pointer"
+                onClick={() => {
+                  setMainImage(image2)
+                  setImage2(mainImage)
+                }}
+                onError={handleImageError}
               />
               <img
-                src={
-                  product.images[2]
-                    ? product.images[2]
-                    : '/images/products/broken-image.png'
-                }
+                src={image3 ? image3 : '/images/products/broken-image.png'}
                 alt="product image 3"
-                className="min-h-28  min-w-[100px] cursor-pointer"
-                onClick={() => product.images[2] && setMainImage(`${product.images[2]}`)}
+                className="min-h-28  min-w-[100px] max-w-[150px] cursor-pointer"
+                onClick={() => {
+                  setMainImage(image3)
+                  setImage3(mainImage)
+                }}
+                onError={handleImageError}
               />
             </div>
           </div>
@@ -111,10 +137,10 @@ const ProductDetails = ({ product }) => {
               {product.title}
             </h2>
             <p className="flex flex-row items-center font-satoshi_regular text-base md:text-lg">
-              {[...Array(product.stars)].map((star, index) => {
-                return <FaStar key={index} className="mr-1 text-yellow-400" />
-              })}{' '}
-              {product.stars}/5
+              {[...Array(Math.round(averageRating))].map((_, index) => (
+                <FaStar key={index} className="mr-1 text-yellow-400" />
+              ))}{' '}
+              {averageRating.toFixed(0)}/5
             </p>
             {product.isDiscounted ? (
               <div className="flex flex-row items-center">

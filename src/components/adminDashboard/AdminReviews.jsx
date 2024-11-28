@@ -4,12 +4,13 @@ import { FaStar } from 'react-icons/fa'
 import { IoCheckmarkCircle, IoCloseCircle } from 'react-icons/io5'
 import { NavLink } from 'react-router-dom'
 import Button from '../Button'
+import { useShopContext } from '../../context/ShopContext'
 
 const AdminReviews = () => {
   const [reviews, setReviews] = useState([])
   const [query, setQuery] = useState('')
   const [sortOrder, setSortOrder] = useState('newest')
-  const beUrl = import.meta.env.VITE_BACKEND_URL;
+  const beUrl = import.meta.env.VITE_BACKEND_URL
 
   const notify = (message) => {
     toast.success(message, {
@@ -67,9 +68,7 @@ const AdminReviews = () => {
 
   const fetchReviews = async () => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews`
-      )
+      const response = await fetch(`${beUrl}/reviews`)
       const data = await response.json()
       const _reviews = data.map((review) => ({
         _id: review._id,
@@ -93,15 +92,12 @@ const AdminReviews = () => {
 
   const deleteReview = async (reviewId) => {
     try {
-      const response = await fetch(
-        `${beUrl}/reviews/${reviewId}`,
-        {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      const response = await fetch(`${beUrl}/reviews/${reviewId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
       const data = await response.json()
       console.log('Review deleted', data)
       notify('Review deleted!')
@@ -116,6 +112,33 @@ const AdminReviews = () => {
   }, [])
 
   const ProductCard = ({ product }) => {
+    const { reviews } = useShopContext()
+
+    if (!product || !product._id) {
+      console.error('Product or product ID is not defined')
+      return null
+    }
+
+    const filteredReviews = reviews.filter(
+      (review) => review.productId && review.productId._id === product._id
+    )
+
+    console.log('Filtered Reviews:', filteredReviews)
+
+    let totalStars = 0
+    filteredReviews.forEach((review) => {
+      totalStars += review.stars
+    })
+
+    let averageRating = filteredReviews.length
+      ? totalStars / filteredReviews.length
+      : 0
+
+    if (isNaN(averageRating) || averageRating < 0) {
+      averageRating = 0
+    }
+
+    console.log('Average Rating:', averageRating)
     return (
       <div className="flex flex-col gap-3 border-b pb-3 lg:w-80 lg:flex-row lg:border-none xl:w-96">
         <NavLink to={`/product/${product._id}`}>
@@ -131,11 +154,11 @@ const AdminReviews = () => {
               {product.title}
             </h3>
           </NavLink>
-          <p className="flex flex-row items-center font-satoshi_regular text-xs md:text-sm">
-            {[...Array(product.stars)].map((star, index) => {
+          <p className="flex flex-row items-center font-satoshi_regular text-base md:text-lg">
+            {[...Array(Math.round(averageRating))].map((star, index) => {
               return <FaStar key={index} className="mr-1 text-yellow-400" />
             })}{' '}
-            {product.stars}/5{' '}
+            {averageRating.toFixed(0)}/5
           </p>
           {product.isDiscounted ? (
             <div className="flex flex-row items-center">
