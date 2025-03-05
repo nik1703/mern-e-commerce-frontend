@@ -80,11 +80,20 @@ function ShoppingCartItems() {
                             </div>
                           </div>
                           <div className="flex items-center justify-between">
-                            <p className="font-satoshi_bold text-xl md:text-2xl">
-                              {formatCurrency(
-                                product.price * cartItem.quantity
+                            <div className="flex items-center space-x-2">
+                              <p className="font-satoshi_bold text-xl md:text-2xl">
+                                {formatCurrency(
+                                  (product.isDiscounted
+                                    ? product.discountedPrice
+                                    : product.price) * cartItem.quantity
+                                )}
+                              </p>
+                              {product.isDiscounted && (
+                                <span className="rounded-xl bg-[#FF3333] bg-opacity-10 px-1 py-1 text-xs text-red-500 md:px-3 mt-1">
+                                  -{product.discountPercentage}%
+                                </span>
                               )}
-                            </p>
+                            </div>
                             <div className="flex items-center justify-center rounded-full bg-[#F0F0F0]">
                               <button
                                 onClick={() =>

@@ -21,13 +21,11 @@ function OrderSummaryMain() {
     return <p>Product not found.</p>
   }
 
-  let subTotal = cartItems.reduce(
-    (total, item) =>
-      total +
-      products.find((product) => product._id === item.productId).price *
-        item.quantity,
-    0
-  )
+  let subTotal = cartItems.reduce((total, item) => {
+    const product = products.find((product) => product._id === item.productId)
+    const price = product.isDiscounted ? product.discountedPrice : product.price
+    return total + price * item.quantity
+  }, 0)
 
   return (
     <>
